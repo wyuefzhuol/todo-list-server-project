@@ -4,7 +4,6 @@ import com.tw.todo.dto.TodoItemRequest;
 import com.tw.todo.dto.TodoItemResponse;
 import com.tw.todo.entity.TodoItem;
 import com.tw.todo.repository.TodoRepository;
-import com.tw.todo.service.TodoService;
 import com.tw.todo.service.impl.TodoServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -74,11 +74,13 @@ public class todoApplicationTest {
         TodoItem todoItem = new TodoItem();
         todoItem.setId(1);
         todoItem.setContent("I start to do homework");
+        todoItem.setStatus(false);
+        Mockito.when(todoRepository.findById(todoItem.getId())).thenReturn(Optional.of(todoItem));
         todoItem.setStatus(true);
         Mockito.when(todoRepository.save(any())).thenReturn(todoItem);
 
         //when
-        TodoItemResponse todoItemResponse = todoServiceImpl.updateTodoItems();
+        TodoItemResponse todoItemResponse = todoServiceImpl.updateTodoItems(todoItem.getId());
 
         //then
         assertEquals(todoItem.getId(),todoItemResponse.getId());

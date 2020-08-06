@@ -37,7 +37,11 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public TodoItemResponse updateTodoItems() {
-        return null;
+    public TodoItemResponse updateTodoItems(int todoItemId) {
+        TodoItemResponse todoItemResponse = new TodoItemResponse();
+        TodoItem todoItem = todoRepository.findById(todoItemId).orElseThrow(RuntimeException::new);
+        todoItem.setStatus(!todoItem.getStatus());
+        BeanUtils.copyProperties(todoRepository.save(todoItem), todoItemResponse);
+        return todoItemResponse;
     }
 }
