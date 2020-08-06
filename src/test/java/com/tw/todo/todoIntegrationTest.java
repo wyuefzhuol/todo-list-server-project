@@ -11,8 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -59,5 +58,18 @@ public class todoIntegrationTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("[0].content").value("I start to do homework"))
                 .andExpect(jsonPath("[0].status").isBoolean());
+    }
+
+    @Test
+    void should_return_1_todo_item_response_with_reverse_status_when_update_todo_items_given_1_todo_item_id() throws Exception {
+        TodoItem todoItem = new TodoItem();
+        todoItem.setContent("I start to do homework");
+        todoItem.setStatus(false);
+        todoRepository.save(todoItem);
+
+        mockMvc.perform(put("/todos/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("content").value("I start to do homework"))
+                .andExpect(jsonPath("status").isBoolean());
     }
 }
