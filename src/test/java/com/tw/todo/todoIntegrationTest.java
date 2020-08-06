@@ -72,4 +72,17 @@ public class todoIntegrationTest {
                 .andExpect(jsonPath("content").value("I start to do homework"))
                 .andExpect(jsonPath("status").isBoolean());
     }
+
+    @Test
+    void should_return_1_todo_item_response_when_delete_todo_item_given_1_todo_item_id() throws Exception {
+        TodoItem todoItem = new TodoItem();
+        todoItem.setContent("I start to do homework");
+        todoItem.setStatus(false);
+        todoRepository.save(todoItem);
+
+        mockMvc.perform(delete("/todos/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("content").value("I start to do homework"))
+                .andExpect(jsonPath("status").isBoolean());
+    }
 }
