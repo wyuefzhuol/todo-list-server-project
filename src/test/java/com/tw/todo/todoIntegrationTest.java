@@ -1,5 +1,6 @@
 package com.tw.todo;
 
+import com.tw.todo.entity.TodoItem;
 import com.tw.todo.repository.TodoRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,5 +45,19 @@ public class todoIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("content").value("I start to do homework"))
                 .andExpect(jsonPath("status").isBoolean());
+    }
+
+    @Test
+    void should_return_1_todo_item_response_when_get_todo_items_given_1_todo_item() throws Exception {
+        TodoItem todoItem = new TodoItem();
+        todoItem.setContent("I start to do homework");
+        todoItem.setStatus(false);
+        todoRepository.save(todoItem);
+
+        mockMvc.perform(get("/todos"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("[0].content").value("I start to do homework"))
+                .andExpect(jsonPath("[0].status").isBoolean());
     }
 }
