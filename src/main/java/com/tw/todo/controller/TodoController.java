@@ -1,11 +1,10 @@
 package com.tw.todo.controller;
 
+import com.tw.todo.dto.TodoItemRequest;
 import com.tw.todo.dto.TodoItemResponse;
 import com.tw.todo.service.impl.TodoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,8 +16,22 @@ public class TodoController {
     TodoServiceImpl todoService;
 
     @GetMapping
-    public List<TodoItemResponse> getTodoItems(){
+    public List<TodoItemResponse> getTodoItems() {
         return todoService.getTodoItems();
     }
 
+    @PostMapping
+    public TodoItemResponse addTodoItem(@RequestBody TodoItemRequest todoItemRequest) {
+        return todoService.addTodoItem(todoItemRequest);
+    }
+
+    @PutMapping("/{id}")
+    public TodoItemResponse updateTodoItem(@PathVariable int todoItemId) {
+        return todoService.updateTodoItems(todoItemId);
+    }
+
+    @DeleteMapping("/{id}")
+    public TodoItemResponse deleteTodoItem(@PathVariable int todoItemId) {
+        return todoService.deleteTodoItem(todoItemId);
+    }
 }
