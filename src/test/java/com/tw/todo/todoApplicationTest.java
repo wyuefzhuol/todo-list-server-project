@@ -87,4 +87,23 @@ public class todoApplicationTest {
         assertEquals(todoItem.getContent(),todoItemResponse.getContent());
         assertEquals(todoItem.getStatus(),todoItemResponse.getStatus());
     }
+
+    @Test
+    void should_return_1_todo_item_response_when_delete_todo_item_given_1_todo_item_id() {
+        //given
+        TodoItem todoItem = new TodoItem();
+        todoItem.setId(1);
+        todoItem.setContent("I start to do homework");
+        todoItem.setStatus(false);
+        Mockito.when(todoRepository.findById(todoItem.getId())).thenReturn(Optional.of(todoItem));
+        Mockito.doNothing().when(todoRepository).deleteById(todoItem.getId());
+
+        //when
+        TodoItemResponse todoItemResponse = todoServiceImpl.deleteTodoItem(todoItem.getId());
+
+        //then
+        assertEquals(todoItem.getId(),todoItemResponse.getId());
+        assertEquals(todoItem.getContent(),todoItemResponse.getContent());
+        assertEquals(todoItem.getStatus(),todoItemResponse.getStatus());
+    }
 }

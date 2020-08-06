@@ -11,4 +11,6 @@ public interface TodoService {
     List<TodoItemResponse> getTodoItems();
 
     TodoItemResponse updateTodoItems(int todoItemId);
+
+    TodoItemResponse deleteTodoItem(int todoItemId);
 }
