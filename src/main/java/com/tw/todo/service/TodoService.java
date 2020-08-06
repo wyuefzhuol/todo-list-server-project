@@ -9,4 +9,6 @@ public interface TodoService {
     TodoItemResponse addTodoItem(TodoItemRequest todoItemRequest);
 
     List<TodoItemResponse> getTodoItems();
+
+    TodoItemResponse updateTodoItems();
 }

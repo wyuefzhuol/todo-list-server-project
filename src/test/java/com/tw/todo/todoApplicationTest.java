@@ -67,4 +67,22 @@ public class todoApplicationTest {
         assertEquals(todoItemList.get(0).getContent(),todoItemResponses.get(0).getContent());
         assertEquals(todoItemList.get(0).getStatus(),todoItemResponses.get(0).getStatus());
     }
+
+    @Test
+    void should_return_1_todo_item_response_with_reverse_status_when_update_todo_items_given_1_todo_item_id() {
+        //given
+        TodoItem todoItem = new TodoItem();
+        todoItem.setId(1);
+        todoItem.setContent("I start to do homework");
+        todoItem.setStatus(true);
+        Mockito.when(todoRepository.save(any())).thenReturn(todoItem);
+
+        //when
+        TodoItemResponse todoItemResponse = todoServiceImpl.updateTodoItems();
+
+        //then
+        assertEquals(todoItem.getId(),todoItemResponse.getId());
+        assertEquals(todoItem.getContent(),todoItemResponse.getContent());
+        assertEquals(todoItem.getStatus(),todoItemResponse.getStatus());
+    }
 }
