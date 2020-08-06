@@ -9,8 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class TodoServiceImpl implements TodoService {
 
@@ -24,10 +22,5 @@ public class TodoServiceImpl implements TodoService {
         BeanUtils.copyProperties(todoItemRequest, todoItem);
         BeanUtils.copyProperties(todoRepository.save(todoItem), todoItemResponse);
         return todoItemResponse;
-    }
-
-    @Override
-    public List<TodoItemResponse> getTodoItems() {
-        return null;
     }
 }

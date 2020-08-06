@@ -13,9 +13,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -45,26 +42,5 @@ public class todoApplicationTest {
         assertEquals(todoItem.getId(),todoItemResponse.getId());
         assertEquals(todoItem.getContent(),todoItemResponse.getContent());
         assertEquals(todoItem.getStatus(),todoItemResponse.getStatus());
-    }
-
-    @Test
-    void should_return_1_todo_item_response_when_get_todo_items_given_1_todo_item() {
-        //given
-        TodoItem todoItem = new TodoItem();
-        todoItem.setId(1);
-        todoItem.setContent("I start to do homework");
-        todoItem.setStatus(false);
-        List<TodoItem> todoItemList = new ArrayList<>();
-        todoItemList.add(todoItem);
-        Mockito.when(todoRepository.findAll()).thenReturn(todoItemList);
-
-        //when
-        List<TodoItemResponse> todoItemResponses = todoServiceImpl.getTodoItems();
-
-        //then
-        assertEquals(todoItemList.size(), todoItemResponses.size());
-        assertEquals(todoItemList.get(0).getId(),todoItemResponses.get(0).getId());
-        assertEquals(todoItemList.get(0).getContent(),todoItemResponses.get(0).getContent());
-        assertEquals(todoItemList.get(0).getStatus(),todoItemResponses.get(0).getStatus());
     }
 }
