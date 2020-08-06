@@ -1,4 +1,4 @@
 package com.tw.todo.controller;
 
-public class todoController {
+public class TodoController {
 }
