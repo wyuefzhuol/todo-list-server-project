@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -28,6 +29,10 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public List<TodoItemResponse> getTodoItems() {
-        return null;
+        return todoRepository.findAll().stream().map(todoItem -> {
+            TodoItemResponse todoItemResponse = new TodoItemResponse();
+            BeanUtils.copyProperties(todoItem, todoItemResponse);
+            return todoItemResponse;
+        }).collect(Collectors.toList());
     }
 }
