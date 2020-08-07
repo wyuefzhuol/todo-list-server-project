@@ -3,6 +3,7 @@ package com.tw.todo.service.impl;
 import com.tw.todo.dto.TodoItemRequest;
 import com.tw.todo.dto.TodoItemResponse;
 import com.tw.todo.entity.TodoItem;
+import com.tw.todo.exception.TodoItemNotFoundException;
 import com.tw.todo.repository.TodoRepository;
 import com.tw.todo.service.TodoService;
 import org.springframework.beans.BeanUtils;
@@ -39,7 +40,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public TodoItemResponse updateTodoItems(int todoItemId) {
         TodoItemResponse todoItemResponse = new TodoItemResponse();
-        TodoItem todoItem = todoRepository.findById(todoItemId).orElseThrow(RuntimeException::new);
+        TodoItem todoItem = todoRepository.findById(todoItemId).orElseThrow(TodoItemNotFoundException::new);
         todoItem.setStatus(!todoItem.getStatus());
         BeanUtils.copyProperties(todoRepository.save(todoItem), todoItemResponse);
         return todoItemResponse;
@@ -48,7 +49,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public TodoItemResponse deleteTodoItem(int todoItemId) {
         TodoItemResponse todoItemResponse = new TodoItemResponse();
-        TodoItem todoItem = todoRepository.findById(todoItemId).orElseThrow(RuntimeException::new);
+        TodoItem todoItem = todoRepository.findById(todoItemId).orElseThrow(TodoItemNotFoundException::new);
         todoRepository.deleteById(todoItemId);
         BeanUtils.copyProperties(todoItem, todoItemResponse);
         return todoItemResponse;
